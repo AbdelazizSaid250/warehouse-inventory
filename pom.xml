@@ -1,47 +1,127 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
-	<modelVersion>4.0.0</modelVersion>
-	<parent>
-		<groupId>org.springframework.boot</groupId>
-		<artifactId>spring-boot-starter-parent</artifactId>
-		<version>2.7.7</version>
-		<relativePath/> <!-- lookup parent from repository -->
-	</parent>
-	<groupId>com.vodafone</groupId>
-	<artifactId>warehouse-inventory</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
-	<packaging>war</packaging>
-	<name>warehouse-inventory</name>
-	<description>warehouse-inventory</description>
-	<properties>
-		<java.version>1.8</java.version>
-	</properties>
-	<dependencies>
-		<dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-web</artifactId>
-		</dependency>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
 
-		<dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-tomcat</artifactId>
-			<scope>provided</scope>
-		</dependency>
-		<dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-test</artifactId>
-			<scope>test</scope>
-		</dependency>
-	</dependencies>
+    <parent>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-starter-parent</artifactId>
+        <version>2.7.7</version>
+        <relativePath/> <!-- lookup parent from repository -->
+    </parent>
 
-	<build>
-		<plugins>
-			<plugin>
-				<groupId>org.springframework.boot</groupId>
-				<artifactId>spring-boot-maven-plugin</artifactId>
-			</plugin>
-		</plugins>
-	</build>
+    <groupId>com.vodafone</groupId>
+    <artifactId>warehouse-inventory</artifactId>
+    <version>1.0-SNAPSHOT</version>
+    <packaging>pom</packaging>
+
+    <modules>
+        <module>common</module>
+        <module>configuration</module>
+        <module>warehouse-service</module>
+    </modules>
+
+    <properties>
+        <maven.compiler.source>8</maven.compiler.source>
+        <maven.compiler.target>8</maven.compiler.target>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <spring.version>2.7.7</spring.version>
+        <postgres.version>42.5.1</postgres.version>
+        <lombok.version>1.18.24</lombok.version>
+        <security.test.version>6.0.1</security.test.version>
+        <common.version>1.0-SNAPSHOT</common.version>
+        <configuration.version>1.0-SNAPSHOT</configuration.version>
+        <jupiter.version>5.8.2</jupiter.version>
+        <mockito.version>4.7.0</mockito.version>
+    </properties>
+
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-starter-data-jpa</artifactId>
+                <version>${spring.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-starter-data-rest</artifactId>
+                <version>${spring.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-starter-security</artifactId>
+                <version>${spring.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-starter-web</artifactId>
+                <version>${spring.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-devtools</artifactId>
+                <version>${spring.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.postgresql</groupId>
+                <artifactId>postgresql</artifactId>
+                <version>${postgres.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.projectlombok</groupId>
+                <artifactId>lombok</artifactId>
+                <version>${lombok.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-starter-tomcat</artifactId>
+                <version>${spring.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-starter-test</artifactId>
+                <version>${spring.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.springframework.security</groupId>
+                <artifactId>spring-security-test</artifactId>
+                <version>${security.test.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.vodafone</groupId>
+                <artifactId>common</artifactId>
+                <version>${common.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.vodafone</groupId>
+                <artifactId>configuration</artifactId>
+                <version>${configuration.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.junit.jupiter</groupId>
+                <artifactId>junit-jupiter-engine</artifactId>
+                <version>${jupiter.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.mockito</groupId>
+                <artifactId>mockito-core</artifactId>
+                <version>${mockito.version}</version>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
 
 </project>
