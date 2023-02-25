@@ -1,45 +1,55 @@
 package com.vodafone.configuration.security;
 
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
-import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
-import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
-import org.springframework.security.crypto.factory.PasswordEncoderFactories;
-import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.core.userdetails.User;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.provisioning.InMemoryUserDetailsManager;
+import org.springframework.security.web.SecurityFilterChain;
 
 @Configuration
-@EnableWebSecurity
-public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
+public class SecurityConfiguration {
 
-    @Override
-    protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-        PasswordEncoder encoder =
-                PasswordEncoderFactories.createDelegatingPasswordEncoder();
-        auth
-                .inMemoryAuthentication()
-                .withUser("user")
-                .password(encoder.encode("user"))
-                .roles("END_USER")
-                .and()
-                .withUser("sales_person")
-                .password(encoder.encode("sales_person"))
-                .roles("SALES_PERSON");
+    @Bean
+    SecurityFilterChain defaultSecurityFilterChain(HttpSecurity httpSecurity) throws Exception {
+        httpSecurity
+                .authorizeHttpRequests()
+                .antMatchers(
+                        "/dcs/addTrackingDevice",
+                        "/dcs/updateTrackingDevice",
+                        "/dcs/deleteTrackingDevice/{deviceID}",
+                        "dcs/activateTrackingDevice/{deviceID}",
+                        "/dcs/sellTrackingDevice/{deviceID}",
+                        "security"
+                ).authenticated()
+                .antMatchers("/welcome").permitAll()
+                .and().formLogin().and().httpBasic();
+
+        return httpSecurity.build();
     }
 
-    @Override
-    protected void configure(HttpSecurity httpSecurity) throws Exception {
-        httpSecurity
-                .authorizeRequests()
-                .antMatchers("/dcs/addTrackingDevice").hasRole("END_USER")
-                .antMatchers("/dcs/updateTrackingDevice").hasRole("END_USER")
-                .antMatchers("/dcs/deleteTrackingDevice/{deviceID}").hasRole("END_USER")
-                .antMatchers("dcs/activateTrackingDevice/{deviceID}").hasRole("END_USER")
-                .antMatchers("/dcs/sellTrackingDevice/{deviceID}").hasRole("SALES_PERSON")
-                .antMatchers("/welcome").permitAll()
-                .and()
-                .formLogin()
-                .and()
-                .logout().logoutUrl("/auth_user/logout");
+    /**
+     * This method returns the saved the credentials into the in-memory of spring boot.
+     * @return InMemoryUserDetailsManager
+     */
+    @Bean
+    public InMemoryUserDetailsManager userDetailsService() {
+        /* This is the 1st non-productive approach */
+        /*UserDetails admin = User.withDefaultPasswordEncoder().username("admin").password("1234").authorities("admin").build();
+
+        UserDetails user =
+                User.withDefaultPasswordEncoder().username("user").password("4321").authorities("read").build();
+
+        return new InMemoryUserDetailsManager(admin, user);*/
+
+
+        /* This is the 2nd non-productive approach */
+        UserDetails admin = User.withUsername("admin").password("1234").authorities("admin").build();
+
+        UserDetails user =  User.withUsername("user").password("4321").authorities("read").build();
+
+
+        return new InMemoryUserDetailsManager(admin, user);
     }
 }

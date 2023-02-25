@@ -11,4 +11,10 @@ public class WelcomeController {
     String welcomeScreen() {
         return "<h1>Welcome Abdelaziz to Vodafone. Vodafone hope the success for you</h1>";
     }
+
+    @GetMapping("security")
+    String testSecurity() {
+        return "<h1>Security</h1>";
+    }
+
 }
